@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>I'm Really Sorry 🐶</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fdebdc, #f6ecff);
+            overflow: hidden
+        }
+
+        .note {
+            max-width: 760px;
+            margin: 30px auto;
+            background: #fffdf8;
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .12);
+            text-align: center
+        }
+
+        h1 {
+            color: #6a4b3a
+        }
+
+        .speech {
+            display: inline-block;
+            background: #fff;
+            border-radius: 18px;
+            padding: 10px 18px;
+            margin-bottom: 15px
+        }
+
+        svg {
+            width: min(320px, 80vw);
+            height: auto
+        }
+
+        .buttons {
+            position: relative;
+            height: 90px;
+            margin-top: 20px
+        }
+
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer
+        }
+
+        #yes {
+            background: #8ed081;
+            color: #fff
+        }
+
+        #no {
+            background: #f58a9d;
+            color: #fff;
+            position: fixed;
+            left: 60%;
+            top: 72%;
+            transition: left .35s cubic-bezier(.2, .8, .2, 1), top .35s cubic-bezier(.2, .8, .2, 1), transform .2s
+        }
+
+        .drop {
+            position: fixed;
+            top: -20px;
+            color: #8b5cf6;
+            font-weight: bold;
+            animation: fall 3s linear forwards;
+            pointer-events: none
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+                opacity: 0
+            }
+        }
+
+        #msg {
+            font-size: 24px;
+            color: #5b8a3c;
+            font-weight: bold;
+            margin-top: 20px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="note">
+        <div id="speech" class="speech">Will you forgive me? 🥺</div>
+        <h1>I'm Really Very Sorry... 🐾</h1>
+        <svg id="dog" viewBox="0 0 220 220">
+            <ellipse cx="110" cy="180" rx="45" ry="20" fill="#d7c6f3" />
+            <ellipse id="earL" cx="55" cy="65" rx="20" ry="35" fill="#d8a15b" />
+            <ellipse id="earR" cx="165" cy="65" rx="20" ry="35" fill="#d8a15b" />
+            <circle cx="110" cy="90" r="60" fill="#efc37d" />
+            <circle id="eyeL" cx="88" cy="82" r="7" fill="#222" />
+            <circle id="eyeR" cx="132" cy="82" r="7" fill="#222" />
+            <circle id="tearL" cx="88" cy="95" r="0" fill="#7fd7ff" />
+            <circle id="tearR" cx="132" cy="95" r="0" fill="#7fd7ff" />
+            <ellipse cx="110" cy="104" rx="10" ry="8" fill="#3d2d22" />
+            <path id="mouth" d="M95 118 Q110 132 125 118" stroke="#6b3c2d" stroke-width="4" fill="none"
+                stroke-linecap="round" />
+            <ellipse cx="86" cy="100" rx="8" ry="5" fill="#f6a8b6" />
+            <ellipse cx="134" cy="100" rx="8" ry="5" fill="#f6a8b6" />
+            <rect x="88" y="150" width="44" height="40" rx="15" fill="#8bc6ec" />
+            <path id="tail" d="M132 165 q25 -8 18 -30" stroke="#efc37d" stroke-width="8" fill="none"
+                stroke-linecap="round" />
+        </svg>
+        <p>I know I was a little out of the line.<br>I'm really very sorry. Please accept my sincere apology.<br>I
+            promise I won't repeat it again. ❤️</p>
+        <div class="buttons">
+            <button id="yes">Yes 💚</button>
+            <button id="no">No 🙈</button>
+        </div>
+        <div id="msg"></div>
+    </div>
+    <script>
+        const no = document.getElementById('no'), yes = document.getElementById('yes'), speech = document.getElementById('speech');
+        const tearL = document.getElementById('tearL'), tearR = document.getElementById('tearR'), mouth = document.getElementById('mouth');
+        let rain = null;
+        function drops() { if (rain) return; rain = setInterval(() => { let d = document.createElement('div'); d.className = 'drop'; d.textContent = ['Sorry 🥺', 'Please 😭', 'Forgive Me', 'One More Chance'][Math.floor(Math.random() * 4)]; d.style.left = Math.random() * 95 + 'vw'; document.body.appendChild(d); setTimeout(() => d.remove(), 3000); }, 140); }
+        function sad() { speech.textContent = "Please don't say no..."; tearL.setAttribute('r', 3); tearR.setAttribute('r', 3); mouth.setAttribute('d', 'M95 126 Q110 112 125 126'); }
+        function happy() { speech.textContent = "Yaaay!! Thank you ❤️"; tearL.setAttribute('r', 0); tearR.setAttribute('r', 0); mouth.setAttribute('d', 'M95 118 Q110 132 125 118'); }
+        function move() {
+            sad(); drops();
+            const pad = 20;
+            const x = Math.random() * (innerWidth - no.offsetWidth - pad);
+            const y = Math.random() * (innerHeight - no.offsetHeight - pad);
+            no.style.transform = 'rotate(' + (Math.random() * 20 - 10) + 'deg)';
+            no.style.left = x + 'px'; no.style.top = y + 'px';
+        }
+        ['mouseenter', 'touchstart', 'click'].forEach(e => no.addEventListener(e, (ev) => { ev.preventDefault(); move(); }, { passive: false }));
+        document.addEventListener('mousemove', e => {
+            const r = no.getBoundingClientRect();
+            const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+            if (Math.hypot(e.clientX - cx, e.clientY - cy) < 120) move();
+        });
+        yes.addEventListener('mouseenter', () => speech.textContent = 'Really?? 🥹');
+        yes.onclick = () => {
+            clearInterval(rain); happy();
+            document.getElementById('msg').innerHTML = "🐶 Thank you sooo much! You're the sweetest person ever! Hope you'll respond to my calls now :)";
+            no.style.display = 'none'; yes.style.display = 'none';
+        };
+        setInterval(() => {
+            const t = document.getElementById('tail');
+            t.style.transformOrigin = '132px 165px';
+            t.animate([{ transform: 'rotate(-8deg)' }, { transform: 'rotate(8deg)' }, { transform: 'rotate(-8deg)' }], { duration: 500 });
+        }, 700);
+    </script>
+</body>
+
+</html>
